@@ -1,31 +1,32 @@
 import React from "react";
-import { useParams, Redirect } from "react-router-dom";
+import { useParams, Redirect, Link } from "react-router-dom";
+import productsData from "../products.json";
 
-const productsData = [
-  {
-    text: "Salata lodowa etc",
-    id: 1,
-  },
-  {
-    text: "Dlugopis marki audi etc",
-    id: 2,
-  },
-  {
-    text: "kaszanka z wieprza etc",
-    id: 3,
-  },
-];
-const Product = () => {
-  const { id } = useParams();
-  const [product] = productsData.filter(
-    (product) => product.id === parseInt(id)
+export const Product = ({ id, category, name, description, price }) => {
+  return (
+    <article>
+      <h1>
+        <Link to={`/task02/product-${id}`}>{name}</Link>
+      </h1>
+      <h2>{category}</h2>
+      <h2>{description}</h2>
+      <h2>{price}</h2>
+    </article>
   );
-
-  if (!product) {
-    return <Redirect to="/" />;
-  }
-
-  return <h1>{product.text}</h1>;
 };
 
-export default Product;
+const ProductPage = () => {
+  const { productId } = useParams();
+
+  const [product = null] = productsData.filter(
+    (prod) => prod.id === Number(productId)
+  );
+
+  if (product === null) {
+    return <Redirect to="/404.html" />;
+  }
+
+  return <Product {...product} />;
+};
+
+export default ProductPage;
