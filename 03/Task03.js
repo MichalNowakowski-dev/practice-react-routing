@@ -9,6 +9,7 @@ const CategoryPage = ({ data }) => {
     (prod) => prod.category.toLowerCase() === category
   );
 
+
   if (!category) return <Shop products={data} />;
   if (filteredProductsData.length < 1)
     return <p>Nie posiadamy takiej kategorii</p>;
